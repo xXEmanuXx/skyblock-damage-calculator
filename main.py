@@ -6,7 +6,6 @@ import utils
 
 WIDTH, HEIGHT = 1200, 700
 
-
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -16,8 +15,6 @@ class App(ctk.CTk):
             "small": ctk.CTkFont("Segoe UI", 13, "bold")
         }
 
-        
-        
         self.title("Hypixel Skyblock Damage Calculator")
         self.geometry(f"{WIDTH}x{HEIGHT}")
 
@@ -73,11 +70,11 @@ class App(ctk.CTk):
         input_tabview = ctk.CTkTabview(frame, corner_radius=0)
         input_tabview.add("Weapon")
         input_tabview.grid(row=0, column=0, columnspan=3, padx=20, pady=20, sticky="nsew")
-        input_tabview.tab("Weapon").grid_columnconfigure((0, 1, 2), weight=1)
+        input_tabview.tab("Weapon").grid_columnconfigure((0, 1, 2, 3, 4, 5), weight=1)
 
         weapon_names = [w["name"] for w in self.weapons]
         weapon_combobox = SearchableComboBox(input_tabview.tab("Weapon"), "Weapon", weapon_names)
-        weapon_combobox.grid(row=0, column=0, padx=20, pady=20)
+        weapon_combobox.grid(row=0, column=0, padx=10, pady=10)
         label_text = ctk.CTkLabel(input_tabview.tab("Weapon"), text="ciao")
         label_text.grid(row=0, column=1)
 
@@ -91,11 +88,11 @@ class App(ctk.CTk):
         control_label = ctk.CTkLabel(control_frame, text="Controls", font=self.fonts["small"])
         control_label.grid(row=0, column=0, columnspan=2, padx=20, pady=20)
 
-        dps_checkbox = ctk.CTkCheckBox(control_frame, text="DPS") # show dps damage?
+        dps_checkbox = ctk.CTkCheckBox(control_frame, text="DPS")
         dps_checkbox.grid(row=1, column=0, padx=20, pady=5, sticky="w")
         Tooltip(dps_checkbox, "Whether or not show dps in damage calculations")
 
-        non_crit_checkbox = ctk.CTkCheckBox(control_frame, text="Non Crit") # show non crits damage? Disabled if 100%+ crit chance or sting weapon
+        non_crit_checkbox = ctk.CTkCheckBox(control_frame, text="Non Crit")
         non_crit_checkbox.grid(row=2, column=0, padx=20, pady=5, sticky="w")
         Tooltip(non_crit_checkbox, "Whether or not show non critical damage")
 
