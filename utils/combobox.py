@@ -2,7 +2,7 @@ import customtkinter as ctk
 
 class SearchableComboBox(ctk.CTkFrame):
     def __init__(self, master, label_text, values, command=None, width=300, height=100):
-        super().__init__(master)
+        super().__init__(master, fg_color="transparent")
         self.values = values
         self.command = command
         self.filtered_values = list(values)
@@ -13,7 +13,7 @@ class SearchableComboBox(ctk.CTkFrame):
         self._selected_index = None
 
         self.label = ctk.CTkLabel(self, text=label_text)
-        self.label.pack(fill="x", padx=2, pady=(2, 0))
+        self.label.pack()
 
         self.entry_var = ctk.StringVar()
         self.entry = ctk.CTkEntry(self, textvariable=self.entry_var, width=self.width + 15, corner_radius=0)
@@ -22,15 +22,19 @@ class SearchableComboBox(ctk.CTkFrame):
         self.entry.bind("<Up>", self._on_arrow)
         self.entry.bind("<Down>", self._on_arrow)
         self.entry.bind("<Return>", self._on_enter)
-        self.entry.pack(fill="x", padx=2, pady=2)
+        self.entry.pack(fill="x", padx=2, pady=0)
 
-        self.dropdown = ctk.CTkScrollableFrame(self, width=self.width, height=self.height, corner_radius=0)
+        self.dropdown = ctk.CTkScrollableFrame(self, width=self.width, height=self.height, corner_radius=0, fg_color=("#ffffff", "#252525"))
         self.dropdown_visible = False
 
         self.populate_dropdown(self.filtered_values)
 
     def _on_keyrelease(self, event):
         if event.keysym == "Return":
+            return
+        
+        if event.keysym == "Escape":
+            self._disable_dropdown()
             return
         
         current_value = self.entry_var.get()
@@ -66,10 +70,11 @@ class SearchableComboBox(ctk.CTkFrame):
 
     def _highlight_selection(self):
         for i, btn in enumerate(self.dropdown.winfo_children()):
-            if i == self._selected_index:
-                btn.configure(fg_color="gray75")
-            else:
-                btn.configure(fg_color="transparent")
+            if isinstance(btn, ctk.CTkButton):
+                if i == self._selected_index:
+                    btn.configure(fg_color="gray50")
+                else:
+                    btn.configure(fg_color="transparent")
 
     def _enable_dropdown(self):
         self.dropdown.pack(fill="both", expand=True)

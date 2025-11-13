@@ -1,8 +1,13 @@
 import requests
 
-API = "https://api.hypixel.net/v2/resources/skyblock"
+WIDTH = 1920
+HEIGHT = 1080
 
-ITEMS = requests.get(API + "/items").json()
+API = "https://api.hypixel.net/v2/resources/skyblock"
+FONTS = {
+    "big": ("Segoe UI", 18, "bold"),
+    "small": ("Segoe UI", 13, "bold")
+}
 
 def fetch_weapons():
     response = requests.get(API + "/items").json()
